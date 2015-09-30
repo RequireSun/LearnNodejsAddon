@@ -17,7 +17,7 @@ namespace demo {
     NODE_SET_METHOD(exports, "hello", Method);
   }
 
-  NODE_MODULE(addon, init);
+  NODE_MODULE(hello, init);
 }
 
 void Initialize (Handle<Object> exports);
