@@ -10,7 +10,7 @@ STDStringWrapper::~STDStringWrapper () {
     delete this->_s;
 }
 
-v8::Handle STDStringWrapper::New(const v8::Arguments args) {
+v8::Handle<v8::Value> STDStringWrapper::New(const v8::Arguments args) {
     v8::HandleScope scope;
     // 如果是构造函数
     if (args.IsConstructCall()) {
@@ -18,6 +18,7 @@ v8::Handle STDStringWrapper::New(const v8::Arguments args) {
         v8::String::Utf8Value str(args[0]->ToString());
         std::string s(*str);
         STDStringWrapper* obj = new STDStringWrapper(s);
+        // 将现在的对象附到 this 上?
         obj->Wrap(args.This());
         return args.This();
     } else {
@@ -27,11 +28,20 @@ v8::Handle STDStringWrapper::New(const v8::Arguments args) {
     }
 }
 
-v8::Handle STDStringWrapper::add(const v8::Arguments args) {
+v8::Handle<v8::Value> STDStringWrapper::add(const v8::Arguments args) {
     v8::HandleScope scope;
 
     v8::String::Utf8Value str(args[0]->ToString());
     std::string s(*str);
+    STDStringWrapper* obj = ObjectWrap::Unwrap(args.This());
+    obj->_s->append(s);
+    return scope.Close(v8::String::New(obj->_s->c_str()));
+}
+
+v8::Handle<v8::Value> STDStringWrapper::toString(const v8::Arguments args) {
+    v8::HandleScope scope;
+    STDStringWrapper* obj = ObjectWrap::Unwrap(args.This());
+    return scope.Close(v8::String::New(obj->_s->c_str()));
 }
 
 // 初始化函数

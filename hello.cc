@@ -1,24 +1,20 @@
+// hello.cc
 #include <node.h>
+#include <v8.h>
 
-namespace demo {
-  using v8::FunctionCallbackInfo;
-  using v8::Isolate;
-  using v8::Local;
-  using v8::Object;
-  using v8::String;
-  using v8::Value;
+using namespace v8;
 
-  void Method (const FunctionCallbackInfo<Value>& args) {
-    Isolate* isolate = args.GetIsolate();
+void Method(const FunctionCallbackInfo<Value>& args) {
+//  Isolate* isolate = args.GetIsolate();
+    Isolate* isolate = Isolate::GetCurrent();
+    HandleScope scope(isolate);
     args.GetReturnValue().Set(String::NewFromUtf8(isolate, "world"));
-  }
-
-  void init (Local<Object> exports) {
-    NODE_SET_METHOD(exports, "hello", Method);
-  }
-
-  NODE_MODULE(hello, init);
 }
 
-void Initialize (Handle<Object> exports);
-NODE_MODULE("hello", Initialize)
+void init(Local<Object> exports) {
+    Isolate* isolate = Isolate::GetCurrent();
+    exports->Set(String::NewFromUtf8(isolate, "hello"),
+                 FunctionTemplate::New(isolate, Method)->GetFunction());
+}
+
+NODE_MODULE(hello, init)
