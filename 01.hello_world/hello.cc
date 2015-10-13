@@ -5,7 +5,6 @@
 using namespace v8;
 
 void Method(const FunctionCallbackInfo<Value>& args) {
-//  Isolate* isolate = args.GetIsolate();
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
     args.GetReturnValue().Set(String::NewFromUtf8(isolate, "world"));
