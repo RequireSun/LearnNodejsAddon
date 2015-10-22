@@ -3,7 +3,7 @@
 
 #include <node.h>
 #include <node_object_wrap.h>
-
+// 要继承 ObjectWrap 才能打包自身对象的
 class MyObject : public node::ObjectWrap {
 public:
     static void Init (v8::Handle<v8::Object> exports);
