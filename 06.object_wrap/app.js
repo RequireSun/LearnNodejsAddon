@@ -7,3 +7,9 @@ var obj = new addon.MyObject(10);
 console.log(obj.plusOne());
 console.log(obj.plusOne());
 console.log(obj.plusOne());
+
+var obj2 = addon.MyObject(1);
+console.log(obj2.plusOne());
+console.log(obj2.getValue());
+console.log(obj2.multiply(2).getValue());
+console.log(obj2.getValue());
