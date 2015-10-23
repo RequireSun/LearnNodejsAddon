@@ -8,3 +8,6 @@ var obj2 = addon.createObject(20);
 var result = addon.add(obj1, obj2);
 
 console.log(result);
+
+var obj3 = addon.createObject('30a');
+console.log(addon.add(obj1, obj3));

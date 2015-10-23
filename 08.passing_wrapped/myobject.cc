@@ -9,6 +9,7 @@ MyObject::MyObject(double value) : _value(value) {}
 MyObject::~MyObject(){}
 
 void MyObject::Init() {
+	// 做的只是把 constructor 构造函数替换成了 New
 	Isolate* isolate = Isolate::GetCurrent();
 	HandleScope scope(isolate);
 
@@ -24,11 +25,15 @@ void MyObject::New(const FunctionCallbackInfo<Value>& args) {
 	HandleScope scope(isolate);
 
 	if (args.IsConstructCall()) {
+		// 采用 new 的时候
+		// 构造新对象并打包, 最后返回给用户
 		double value = args[0]->IsUndefined() ? 0 : args[0]->NumberValue();
 		MyObject* obj = new MyObject(value);
 		obj->Wrap(args.This());
 		args.GetReturnValue().Set(args.This());
 	} else {
+		// 如果是普通调用
+		// 使用第一个参数构造一个对象返回
 		const int argc = 1;
 		Local<Value> argv[argc] = { args[0] };
 		Local<Function> cons = Local<Function>::New(isolate, constructor);
@@ -37,6 +42,7 @@ void MyObject::New(const FunctionCallbackInfo<Value>& args) {
 }
 
 void MyObject::NewInstance(const FunctionCallbackInfo<Value>& args) {
+	// 使用第一个参数构造一个对象返回回去
 	Isolate* isolate = Isolate::GetCurrent();
 	HandleScope scope(isolate);
 

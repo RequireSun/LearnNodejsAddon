@@ -5,11 +5,12 @@
 using namespace v8;
 
 void CreateObject(const FunctionCallbackInfo<Value>& args) {
+	// 这个函数的作用就是直接构造一个对象返回
 	Isolate* isolate = Isolate::GetCurrent();
 	HandleScope scope(isolate);
 	MyObject::NewInstance(args);
 }
-
+// 将两个参数解包相加然后返回
 void Add(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = Isolate::GetCurrent();
 	HandleScope scope(isolate);
